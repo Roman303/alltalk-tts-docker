@@ -1,4 +1,4 @@
-# Perfektes Dockerfile für AllTalk TTS Finetuning (CUDA 11.8, fokussiert auf Voice Cloning)
+# Perfektes Dockerfile für AllTalk TTS Finetuning (CUDA 11.8, fix für Requirements-Pfade)
 FROM nvidia/cuda:11.8.0-cudnn8-devel-ubuntu22.04
 
 LABEL maintainer="deinname <email@example.com>"
@@ -25,19 +25,19 @@ WORKDIR /app
 # Pip upgraden
 RUN python3 -m pip install --upgrade pip setuptools wheel
 
-# PyTorch für CUDA 11.8 installieren (kompatibel mit DeepSpeed)
+# PyTorch für CUDA 11.8 installieren (kompatibel mit TTS 0.21.3 und DeepSpeed)
 RUN python3 -m pip install --no-cache-dir \
     torch==2.1.2 torchvision==0.16.2 torchaudio==2.1.2 --index-url https://download.pytorch.org/whl/cu118
 
 # AllTalk TTS klonen (neueste Version)
 RUN git clone https://github.com/erew123/alltalk_tts.git /app/alltalk_tts
 
-# Requirements installieren (core + finetune)
+# Requirements installieren (korrekte Pfade: Standalone + Finetune)
 WORKDIR /app/alltalk_tts
-RUN python3 -m pip install --no-cache-dir -r requirements.txt \
-    && python3 -m pip install --no-cache-dir -r requirements_finetune.txt
+RUN python3 -m pip install --no-cache-dir -r system/requirements/requirements_standalone.txt \
+    && python3 -m pip install --no-cache-dir -r system/requirements/requirements_finetune.txt
 
-# Weitere Pakete upgraden/updaten (vermeide Konflikte, z.B. Numpy 1.24+)
+# Weitere Pakete upgraden (behebt Konflikte, z.B. Pandas nach TTS-Downgrade)
 RUN python3 -m pip install --no-cache-dir --upgrade \
     numpy>=1.24 \
     pandas>=2.0 \
@@ -46,7 +46,7 @@ RUN python3 -m pip install --no-cache-dir --upgrade \
     transformers \
     datasets \
     tqdm \
-    TTS
+    TTS==0.21.3  # Expliziter Downgrade, wie im Repo-Issue
 
 # Vollständiges XTTS-v2-Modell herunterladen (via Transformers, für Finetuning)
 RUN python3 -c "from transformers import pipeline; pipeline('text-to-speech', model='coqui/XTTS-v2', device='cuda')"
