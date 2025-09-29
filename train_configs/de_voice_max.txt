@@ -1,0 +1,18 @@
+{
+  "train": {
+    "epochs": 25,
+    "batch_size": 1,
+    "learning_rate": 0.00005,
+    "warmup_steps": 200,
+    "grad_accumulation_steps": 8,
+    "save_every_epoch": true,
+    "validation_split": 0.2,
+    "early_stopping_patience": 5,
+    "mixed_precision": true
+  },
+  "audio": {
+    "sample_rate": 24000,
+    "max_audio_length": 12
+  },
+  "notes": "Aggressives Feintuning, langsameres, stärkeres Lernen – kann Overfitting riskieren bei 68 WAVs."
+}

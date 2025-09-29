@@ -1,0 +1,18 @@
+{
+  "train": {
+    "epochs": 15,
+    "batch_size": 2,
+    "learning_rate": 0.00008,
+    "warmup_steps": 150,
+    "grad_accumulation_steps": 4,
+    "save_every_epoch": true,
+    "validation_split": 0.15,
+    "early_stopping_patience": 3,
+    "mixed_precision": true
+  },
+  "audio": {
+    "sample_rate": 24000,
+    "max_audio_length": 12
+  },
+  "notes": "Empfohlene Trainingskonfiguration für 68 WAVs mit 3–10 Sek Länge (weibliche Stimme, 24kHz)."
+}
