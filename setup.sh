@@ -18,10 +18,6 @@ fi
 
 cd alltalk_tts
 
-# Run setup
-chmod +x atsetup.sh
-./atsetup.sh --auto --standalone --deepspeed
-
 # Data preparation
 if [ ! -d "data" ]; then
     git clone https://github.com/roman303/alltalk-tts-docker.git data
