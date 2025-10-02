@@ -17,12 +17,9 @@ if [ ! -d "alltalk_tts" ]; then
 fi
 
 cd alltalk_tts
+git clone https://github.com/roman303/alltalk-tts-docker.git data
+cp -r data/data/* finetune/put-voice-samples-in-here/
 
-# Data preparation
-if [ ! -d "data" ]; then
-    git clone https://github.com/roman303/alltalk-tts-docker.git data
-    cp -r data/data/* finetune/put-voice-samples-in-here/
-fi
 
 # Conda environment setup
 source alltalk_environment/conda/bin/activate alltalk_environment/env
